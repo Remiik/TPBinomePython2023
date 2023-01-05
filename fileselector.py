@@ -1,10 +1,11 @@
 import kivy
 from kivy.app import App
 from kivy.uix.filechooser import FileChooserListView
+import os
 
 class FileSelectorApp(App):
     def build(self):
-        filechooser = FileChooserListView(path="Tp")
+        filechooser = FileChooserListView(path="TPBINOME")
         filechooser.bind(on_submit=self.selected)
         return filechooser
 
