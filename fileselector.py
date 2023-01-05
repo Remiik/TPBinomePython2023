@@ -3,6 +3,8 @@ from kivy.app import App
 from kivy.uix.filechooser import FileChooserListView
 import os
 
+Label, Popup, = ""
+
 class FileSelectorApp(App):
     def build(self):
         filechooser = FileChooserListView(path="TPBINOME")
