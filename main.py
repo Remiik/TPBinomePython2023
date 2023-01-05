@@ -9,11 +9,13 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
+from ftplib import FTP
 import zipfile
 import os
 import shutil
+import pathlib
 
-class SayHello(App):
+class Application(App):
 	def build(self):
 		self.window = GridLayout()
 		self.window.cols=1
@@ -55,20 +57,28 @@ class SayHello(App):
 
 	def selected_file_menu(self, instance, selection, touch):
 		if selection :
-			self.selected_file = str(selection[0])
+			self.selected_path = str(selection[0])
+			self.selected_file = self.selected_path.split('/')
 			self.message.text = "Chemin du fichier selectionné :  " + str(selection[0])
-			#shutil.copy(self.selected_file, './TPBINOME/get_ftp')
-
+			#shutil.copy(self.selected_path, './TPBINOME/get_ftp')
+			
 	def buttonFTP(self, instance):
-		pass
+		if self.selected_path :
+			ftp = FTP('127.0.0.1')
+			ftp.login("user", "12345")
+			# Ouvrez le fichier en mode binaire
+			with open(self.selected_path, "rb") as f:
+				# Envoyez le fichier
+				ftp.storbinary(f"STOR {self.selected_file[-1]}", f)
+			ftp.quit()
+			self.message.text = "Fichier envoyer au serveur FTP"
+
 	def buttonQuit(self, instance):
 		self.stop()
 
 	def buttonZip(self, instance):
-		self.message.text = ""
-
+		pass
+		
 if __name__ == "__main__":
-	SayHello().run()
+	Application().run()
 
-if ButtonBox == 3:
-    print("coucou")
