@@ -10,7 +10,7 @@ from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from ftplib import FTP
-import zipfile
+from zipfile import zipfile 
 import os
 import shutil
 import pathlib
@@ -23,6 +23,7 @@ class Application(App):
 		self.window.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 		
 		#on créer l'objet fileSelector
+		self.selected_path = ""
 		self.filechooser = FileChooserIconView(path="")
 		self.filechooser.bind(on_submit =self.selected_file_menu)
 		self.window.add_widget(self.filechooser)
@@ -61,25 +62,44 @@ class Application(App):
 		if selection :
 			#enregistre le chemin du fichier selectionner
 			self.selected_path = str(selection[0])
-			#va nous permettre
+			#va nous permettre de récuperer le nom du fichier avec self.selected_file[-1]
 			self.selected_file = self.selected_path.split('/')
+			#on change le texte afficher a l'écran
 			self.message.text = "Chemin du fichier selectionné :  " + str(selection[0])
-			#shutil.copy(self.selected_path, './TPBINOME/get_ftp')
+		
 			
 	def buttonFTP(self, instance):
+		#si un fichier a été sélectionner
 		if self.selected_path :
+			#Connection au serveur ftp
 			ftp = FTP('127.0.0.1')
 			ftp.login("user", "12345")
 			# Ouvrez le fichier en mode binaire
 			with open(self.selected_path, "rb") as f:
 				# Envoyez le fichier
 				ftp.storbinary(f"STOR {self.selected_file[-1]}", f)
+			#on se deconnecte du serveur ftp
 			ftp.quit()
+			#on change le message affiché a l'écran
 			self.message.text = "Fichier envoyer au serveur FTP"
+		else : 
+			self.message.text = "Veuillez selectionnez un fichier"
 
+	def deleteFtp(self, instance):
+		#si le fichier se trouve dans get_ftp
+		if self.selected_path in "/get_ftp/" : 
+			#On se connecte au serveur ftp
+			ftp = FTP('127.0.0.1')
+			ftp.login("user", "12345")
+			#on supprime le fichier selectionner
+			ftp.delete(self.selected_file[-1])
+		else : 
+			"Selectionnez un fichier dans get_ftp"
+
+	#on quitte l'application
 	def buttonQuit(self, instance):
 		self.stop()
-
+	#compresse ou décompresse un fichier en fonction de son état 
 	def buttonZip(self, instance):
 		pass
 		
