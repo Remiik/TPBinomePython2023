@@ -4,7 +4,7 @@ from kivy.uix.filechooser import FileChooserListView
 
 class FileSelectorApp(App):
     def build(self):
-        filechooser = FileChooserListView()
+        filechooser = FileChooserListView(path="Tp")
         filechooser.bind(on_submit=self.selected)
         return filechooser
 
