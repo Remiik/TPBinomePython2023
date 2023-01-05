@@ -54,17 +54,17 @@ class SayHello(App):
 		return self.window
 
 	def selected_file(self, instance, selection, touch):
-		self.selected_file = selection
-		print(selection)
-		print(touch)
+		if selection :
+			self.selected_file = selection[0]
+			self.message.text = "Chemin du fichier selectionné :  " + str(selection[0])
 	
 	def buttonFTP(self, instance):
-		self.message.text = "Chemin du fichier selectionné :  " + str(self.selected_file)
+		pass
 	def buttonQuit(self, instance):
 		self.stop()
 
 	def buttonZip(self, instance):
-		self.message.text = "Ca veux se tappe ou bien ??"
+		self.message.text = ""
 
 if __name__ == "__main__":
 	SayHello().run()

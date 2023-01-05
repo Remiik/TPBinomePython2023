@@ -5,7 +5,7 @@ import os
 
 class FileSelectorApp(App):
     def build(self):
-        filechooser = FileChooserListView(path="TPBINOME")
+        filechooser = FileChooserListView(path="")
         filechooser.bind(on_submit=self.selected)
         return filechooser
 
@@ -23,6 +23,12 @@ class FileSelectorApp(App):
             popup = Popup(title="Erreur", content=content, size_hint=(0.5, 0.5))
             content.bind(on_ref_press=popup.dismiss)
             popup.open()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        # Création du bouton "Sélectionner un fichier"
+        self.file_selector_button = Button(text="Sélectionner un fichier", size_hint_y=None, height=30)
+        self.file_selector_button
 
 if __name__ == "__main__":
     FileSelectorApp().run()
