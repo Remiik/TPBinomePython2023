@@ -11,7 +11,7 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 import zipfile
 import os
-
+import shutil
 
 class SayHello(App):
 	def build(self):
@@ -22,7 +22,7 @@ class SayHello(App):
 		
 		#on créer l'objet fileSelector
 		self.filechooser = FileChooserIconView(path="TPBINOME")
-		self.filechooser.bind(on_submit =self.selected_file)
+		self.filechooser.bind(on_submit =self.selected_file_menu)
 		self.window.add_widget(self.filechooser)
 
 		#ajout d'un champ text
@@ -53,11 +53,12 @@ class SayHello(App):
 		# affiche la fenetre construite	
 		return self.window
 
-	def selected_file(self, instance, selection, touch):
+	def selected_file_menu(self, instance, selection, touch):
 		if selection :
-			self.selected_file = selection[0]
+			self.selected_file = str(selection[0])
 			self.message.text = "Chemin du fichier selectionné :  " + str(selection[0])
-	
+			#shutil.copy(self.selected_file, './TPBINOME/get_ftp')
+
 	def buttonFTP(self, instance):
 		pass
 	def buttonQuit(self, instance):

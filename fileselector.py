@@ -1,6 +1,11 @@
 import kivy
 from kivy.app import App
 from kivy.uix.filechooser import FileChooserListView
+from kivy.uix.label import Label
+from kivy.uix.image import Image
+from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
 import os
 
 class FileSelectorApp(App):
@@ -9,7 +14,7 @@ class FileSelectorApp(App):
         filechooser.bind(on_submit=self.selected)
         return filechooser
 
-    def selected(self, instance, selection):
+    def selected(self, instance, selection, touch):
         """Affiche un message de confirmation de sélection de fichier."""
         if selection:
             selected_file = selection[0]
@@ -23,12 +28,6 @@ class FileSelectorApp(App):
             popup = Popup(title="Erreur", content=content, size_hint=(0.5, 0.5))
             content.bind(on_ref_press=popup.dismiss)
             popup.open()
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        # Création du bouton "Sélectionner un fichier"
-        self.file_selector_button = Button(text="Sélectionner un fichier", size_hint_y=None, height=30)
-        self.file_selector_button
 
 if __name__ == "__main__":
     FileSelectorApp().run()
