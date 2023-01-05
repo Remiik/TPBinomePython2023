@@ -10,9 +10,7 @@ from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from ftplib import FTP
-from zipfile import zipfile 
-import os
-import shutil
+from zipfile import ZipFile
 import pathlib
 
 class Application(App):
@@ -63,7 +61,7 @@ class Application(App):
 			#enregistre le chemin du fichier selectionner
 			self.selected_path = str(selection[0])
 			#va nous permettre de récuperer le nom du fichier avec self.selected_file[-1]
-			self.selected_file = self.selected_path.split('/')
+			self.selected_file = self.selected_path.split('\\')
 			#on change le texte afficher a l'écran
 			self.message.text = "Chemin du fichier selectionné :  " + str(selection[0])
 		
@@ -101,7 +99,20 @@ class Application(App):
 		self.stop()
 	#compresse ou décompresse un fichier en fonction de son état 
 	def buttonZip(self, instance):
-		pass
+		if pathlib.Path(str(self.selected_file)).suffix == ".rar']" or pathlib.Path(str(self.selected_file)).suffix == ".zip']":
+		#Décompression du fichier
+			with ZipFile(str(self.selected_file[-1]), 'r') as zip:
+				#On écrit tout le contenu du fichier ZIP
+				zip.printdir()
+				#extraction des fichiers dézippés
+				zip.extractall()
+				self.message.text = "Dossier ZIP décompressé."
+		else:
+		#Compression du fichier
+			with ZipFile(str(self.selected_file[-1]) + '.zip','w') as zip:
+				#On compresse le fichier unique sélctionné
+				zip.write(str(self.selected_file[-1]))
+				self.message.text = "Fichier compressé en fichier ZIP."
 		
 if __name__ == "__main__":
 	Application().run()
