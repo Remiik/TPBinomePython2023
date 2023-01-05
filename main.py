@@ -23,7 +23,7 @@ class Application(App):
 		self.window.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
 		
 		#on créer l'objet fileSelector
-		self.filechooser = FileChooserIconView(path="TPBINOME")
+		self.filechooser = FileChooserIconView(path="")
 		self.filechooser.bind(on_submit =self.selected_file_menu)
 		self.window.add_widget(self.filechooser)
 
@@ -37,11 +37,12 @@ class Application(App):
 				size_hint = (1,0.1),
 				on_press=self.buttonFTP
 		)
+		# creation du second bouton
 		self.button2 = Button(text="Zip/Unzip", 
 				size_hint = (1,0.1),
 				on_press=self.buttonZip
 		)
-		# creation du second bouton
+		# creation du troisieme bouton
 		self.button3 = Button(text="Quit", 
 				size_hint = (1,0.1),
 				on_press=self.buttonQuit
@@ -54,10 +55,13 @@ class Application(App):
 		self.window.add_widget(self.buttonArea)
 		# affiche la fenetre construite	
 		return self.window
-
+	
+	#enregistre le fichier selectionner 
 	def selected_file_menu(self, instance, selection, touch):
 		if selection :
+			#enregistre le chemin du fichier selectionner
 			self.selected_path = str(selection[0])
+			#va nous permettre
 			self.selected_file = self.selected_path.split('/')
 			self.message.text = "Chemin du fichier selectionné :  " + str(selection[0])
 			#shutil.copy(self.selected_path, './TPBINOME/get_ftp')
