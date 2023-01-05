@@ -113,6 +113,8 @@ class Application(App):
 				#On compresse le fichier unique sélctionné
 				zip.write(str(self.selected_file[-1]))
 				self.message.text = "Fichier compressé en fichier ZIP."
+		self.filechooser._update_files()
+	
 		
 if __name__ == "__main__":
 	Application().run()
